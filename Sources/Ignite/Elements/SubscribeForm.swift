@@ -67,7 +67,7 @@ public struct SubscribeForm: HTML, NavigationItem {
 
     /// Controls whether this dropdown needs to be created as its own element,
     /// or whether it uses the structure provided by a parent `NavigationBar`.
-    var isNavigationItem = false
+    public var isNavigationItem = false
 
     /// Creates a new form with the specified spacing and content.
     /// - Parameters:

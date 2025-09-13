@@ -30,29 +30,29 @@ public typealias Date = Foundation.Date
 /// rendering or for publishing purposes.
 public struct CoreAttributes: Equatable, Sendable, CustomStringConvertible {
     /// A unique identifier. Can be empty.
-    var id = ""
+    public var id = ""
 
     /// ARIA attributes that add accessibility information.
     /// See https://www.w3.org/TR/html-aria/
-    var aria = OrderedSet<Attribute>()
+    public var aria = OrderedSet<Attribute>()
 
     /// CSS classes.
-    var classes = OrderedSet<String>()
+    public var classes = OrderedSet<String>()
 
     /// Inline CSS styles.
-    var styles = OrderedSet<InlineStyle>()
+    public var styles = OrderedSet<InlineStyle>()
 
     /// Data attributes.
-    var data = OrderedSet<Attribute>()
+    public var data = OrderedSet<Attribute>()
 
     /// JavaScript events, such as onclick.
-    var events = OrderedSet<Event>()
+    public var events = OrderedSet<Event>()
 
     /// Custom attributes not covered by the above, e.g. loading="lazy"
-    var customAttributes = OrderedSet<Attribute>()
+    public var customAttributes = OrderedSet<Attribute>()
 
     /// Whether this set of attributes is empty.
-    var isEmpty: Bool { self == CoreAttributes() }
+    public var isEmpty: Bool { self == CoreAttributes() }
 
     /// All core attributes collapsed down to a single string for easy application.
     public var description: String {
@@ -148,13 +148,13 @@ public struct CoreAttributes: Equatable, Sendable, CustomStringConvertible {
 
     /// Appends a collection of CSS classes.
     /// - Parameter classes: The CSS classes to append.
-    mutating func append(classes: some Collection<String>) {
+    public mutating func append(classes: some Collection<String>) {
         self.classes.formUnion(classes)
     }
 
     /// Appends multiple CSS classes.
     /// - Parameter classes: The CSS classes to append.
-    mutating func append(classes: String?...) {
+    public mutating func append(classes: String?...) {
         let classes = classes.compactMap(\.self)
         self.classes.formUnion(classes)
     }
@@ -208,14 +208,14 @@ public struct CoreAttributes: Equatable, Sendable, CustomStringConvertible {
 
     /// Appends a data attribute.
     /// - Parameter dataAttributes: Variable number of data attributes to append.
-    mutating func append(dataAttributes: Attribute...) {
+    public mutating func append(dataAttributes: Attribute...) {
         data.formUnion(dataAttributes)
     }
 
     /// Appends multiple custom attributes.
     /// - Parameter customAttributes: Variable number of custom attributes to append,
     ///   where each attribute is an `AttributeValue` containing a name-value pair.
-    mutating func append(customAttributes: Attribute...) {
+    public mutating func append(customAttributes: Attribute...) {
         self.customAttributes.formUnion(customAttributes)
     }
 

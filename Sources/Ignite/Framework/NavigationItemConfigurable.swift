@@ -6,7 +6,7 @@
 //
 
 /// A protocol that allows elements to be configured for placement in a navigation bar.
-protocol NavigationItemConfigurable: BodyElement {
+public protocol NavigationItemConfigurable: BodyElement {
     /// Whether this element is configured as a navigation item.
     var isNavigationItem: Bool { get set }
 
@@ -14,7 +14,7 @@ protocol NavigationItemConfigurable: BodyElement {
     func configuredAsNavigationItem(_ isNavItem: Bool) -> Self
 }
 
-extension NavigationItemConfigurable {
+public extension NavigationItemConfigurable {
     /// Configures this element to be placed inside a `NavigationBar`.
     /// - Returns: A new element instance suitable for placement
     /// inside a `NavigationBar`.

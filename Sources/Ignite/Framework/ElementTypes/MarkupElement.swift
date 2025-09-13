@@ -17,19 +17,19 @@ public protocol MarkupElement: Sendable {
     func markup() -> Markup
 }
 
-extension MarkupElement {
+public extension MarkupElement {
     /// Converts this element and its children into an HTML string with attributes.
     /// - Returns: A string containing the HTML markup
-    func markupString() -> String {
+    public func markupString() -> String {
         markup().string
     }
 
     /// The publishing context of this site.
-    var publishingContext: PublishingContext {
+    public var publishingContext: PublishingContext {
         PublishingContext.shared
     }
 
-    func `is`(_ elementType: any MarkupElement.Type) -> Bool {
+    public func `is`(_ elementType: any MarkupElement.Type) -> Bool {
         switch self {
         case let element as any HTML:
             element.isType(elementType)
@@ -39,7 +39,7 @@ extension MarkupElement {
         }
     }
 
-    func `as`<T: MarkupElement>(_ elementType: T.Type) -> T? {
+    public func `as`<T: MarkupElement>(_ elementType: T.Type) -> T? {
         switch self {
         case let element as any HTML:
             element.asType(elementType)
@@ -50,9 +50,9 @@ extension MarkupElement {
     }
 }
 
-private extension HTML {
+public extension HTML {
     /// Whether this element represents a specific type.
-    func isType(_ elementType: any MarkupElement.Type) -> Bool {
+    public func isType(_ elementType: any MarkupElement.Type) -> Bool {
         if let anyHTML = body as? AnyHTML {
             type(of: anyHTML.wrapped) == elementType
         } else {
@@ -61,7 +61,7 @@ private extension HTML {
     }
 
     /// The underlying content, conditionally cast to the specified type.
-    func asType<T: MarkupElement>(_ elementType: T.Type) -> T? {
+    public func asType<T: MarkupElement>(_ elementType: T.Type) -> T? {
         if let anyHTML = body as? AnyHTML, let element = anyHTML.attributedContent as? T {
             element
         } else if let element = body as? T {
@@ -72,7 +72,7 @@ private extension HTML {
     }
 }
 
-private extension InlineElement {
+public extension InlineElement {
     /// The underlying content, conditionally cast to the specified type.
     func asType<T: MarkupElement>(_ elementType: T.Type) -> T? {
         if let anyHTML = body as? AnyInlineElement, let element = anyHTML.attributedContent as? T {
@@ -85,7 +85,7 @@ private extension InlineElement {
     }
 
     /// Whether this element represents a specific type.
-    func isType(_ elementType: any MarkupElement.Type) -> Bool {
+    public func isType(_ elementType: any MarkupElement.Type) -> Bool {
         if let anyHTML = body as? AnyInlineElement {
             type(of: anyHTML.wrapped) == elementType
         } else {

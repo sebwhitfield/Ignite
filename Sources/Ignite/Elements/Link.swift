@@ -47,7 +47,7 @@ public struct Link: InlineElement, NavigationItem, DropdownItem {
     var content: any InlineElement
 
     /// The location to which this link should direct users.
-    var url: String
+    public var url: String
 
     /// The style for this link. Defaults to `.automatic`.
     var style = Style.automatic

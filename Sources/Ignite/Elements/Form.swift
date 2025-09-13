@@ -36,7 +36,7 @@ public struct Form: HTML, NavigationItem {
 
     /// Controls whether this dropdown needs to be created as its own element,
     /// or whether it uses the structure provided by a parent `NavigationBar`.
-    var isNavigationItem = false
+    public var isNavigationItem = false
 
     /// Sets the style for form labels
     /// - Parameter style: How labels should be displayed

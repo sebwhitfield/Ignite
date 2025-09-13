@@ -12,12 +12,12 @@ import SwiftSoup
 /// elements. This allows any part of the site to reference content, add
 /// build warnings, and more.
 @MainActor
-final class PublishingContext {
+final public class PublishingContext {
     /// The shared instance of `PublishingContext`.
     private static var sharedContext: PublishingContext!
 
     /// The shared instance of `PublishingContext`.
-    static var shared: PublishingContext {
+    public static var shared: PublishingContext {
         guard let sharedContext else {
             fatalError("""
             PublishingContext.shared accessed before being initialized. \

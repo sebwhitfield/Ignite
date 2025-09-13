@@ -352,7 +352,7 @@ public struct NavigationBar: HTML {
     }
 }
 
-fileprivate extension Link {
+public extension Link {
     func trimmingMargin() -> Self {
         guard content.is(Text.self) else { return self }
         var link = self

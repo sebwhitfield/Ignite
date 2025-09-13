@@ -30,20 +30,20 @@ public extension InlineElement {
     }
 }
 
-extension InlineElement {
+public extension InlineElement {
     /// Adds an event handler to the element.
     /// - Parameters:
     ///   - name: The name of the event (e.g., "click", "mouseover")
     ///   - actions: Array of actions to execute when the event occurs
     /// - Returns: The modified `InlineElement`
-    mutating func addEvent(name: String, actions: [Action]) {
+    public mutating func addEvent(name: String, actions: [Action]) {
         guard !actions.isEmpty else { return }
         let event = Event(name: name, actions: actions)
         attributes.events.append(event)
     }
 
     /// Checks if this element is `EmptyInlineElement`
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         if let collection = self as? InlineElementCollection {
             collection.elements.allSatisfy { $0 is EmptyInlineElement }
         } else {
@@ -52,7 +52,7 @@ extension InlineElement {
     }
 
     /// A Boolean value indicating whether this represents `Image`.
-    var isImage: Bool {
+    public var isImage: Bool {
         if let anyHTML = body as? AnyInlineElement {
             anyHTML.wrapped is Image
         } else {

@@ -14,7 +14,7 @@ public protocol DropdownItem: BodyElement {}
 /// a `NavigationBar`.
 public struct Dropdown: HTML, NavigationItem, FormItem {
     /// How the dropdown should be rendered based on its context.
-    enum Configuration: Sendable {
+    public enum Configuration: Sendable {
         /// Renders as a complete standalone dropdown.
         case standalone
         /// Renders for placement inside a navigation bar.
@@ -100,7 +100,7 @@ public struct Dropdown: HTML, NavigationItem, FormItem {
     /// Sets how this dropdown should be rendered based on its placement context.
     /// - Parameter configuration: The context in which this dropdown will be used.
     /// - Returns: A configured dropdown instance.
-    func configuration(_ configuration: Configuration) -> Self {
+    public func configuration(_ configuration: Configuration) -> Self {
         var copy = self
         copy.configuration = configuration
         return copy
