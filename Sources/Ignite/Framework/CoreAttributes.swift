@@ -29,6 +29,9 @@ public typealias Date = Foundation.Date
 /// A handful of attributes that all HTML types must support, either for
 /// rendering or for publishing purposes.
 public struct CoreAttributes: Equatable, Sendable, CustomStringConvertible {
+    /// Explicit public convenience initializer.
+    public init() { }
+    
     /// A unique identifier. Can be empty.
     public var id = ""
 

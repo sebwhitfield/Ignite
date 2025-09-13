@@ -50,7 +50,7 @@ public struct Link: InlineElement, NavigationItem, DropdownItem {
     public var url: String
 
     /// The style for this link. Defaults to `.automatic`.
-    var style = Style.automatic
+    public var style = Style.automatic
 
     /// When rendered with the `.button` style, this controls the button's size.
     var size = Button.Size.medium

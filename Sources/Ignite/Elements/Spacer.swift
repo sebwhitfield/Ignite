@@ -23,7 +23,7 @@ public struct Spacer: HTML, NavigationItem {
     private var spacingAmount: SpacingType
 
     /// Whether the spacer is used horizontally or vertically.
-    private var axis: Axis = .vertical
+    public var axis: Axis = .vertical
 
     /// Creates a new `Spacer` that uses all available space.
     public init() {
