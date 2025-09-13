@@ -55,7 +55,7 @@ public struct NavigationBar: HTML {
         /// The default style for navigation menus.
         public static var automatic: Self { .bordered }
 
-        var styles: [InlineStyle] {
+        public var styles: [InlineStyle] {
             switch self {
             case .plain: [.init(.border, value: "none")]
             case .bordered: []

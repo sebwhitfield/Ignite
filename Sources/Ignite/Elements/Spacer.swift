@@ -47,7 +47,7 @@ public struct Spacer: HTML, NavigationItem {
     /// Configures the axis of this spacer.
     /// - Parameter axis: The lateral direction of the spacer.
     /// - Returns: A new `Spacer` with the specified axis.
-    func axis(_ axis: Axis) -> Self {
+    public func axis(_ axis: Axis) -> Self {
         var copy = self
         copy.axis = .horizontal
         return copy
