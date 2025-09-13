@@ -20,7 +20,7 @@ public struct NavigationItemGroup: NavigationItem {
     private var content: [any NavigationItem]
 
     /// The child elements contained within this group, with attributes.
-    var items: [any NavigationItem] {
+    public var items: [any NavigationItem] {
         content.map {
             var item = $0
             item.attributes.merge(attributes)
