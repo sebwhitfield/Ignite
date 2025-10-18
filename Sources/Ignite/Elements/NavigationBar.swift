@@ -51,7 +51,7 @@ public struct NavigationBar: HTML {
 
         /// A toggle button with the default border styling.
         case bordered
-        case side
+        case side(content: any HTML)
         case sideBordered
 
         /// The default style for navigation menus.
@@ -70,7 +70,7 @@ public struct NavigationBar: HTML {
     /// Which icon should be used in the navigation menu toggle button.
     public enum NavigationMenuIcon: String, Sendable {
         /// A hamburger menu icon (three horizontal lines).
-        case bars = "navbar-toggler-icon"
+        case bars = "navbar-toggler-iconnnn"
 
         /// A three-dots menu icon.
         case ellipsis = "bi bi-three-dots"
