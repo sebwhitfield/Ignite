@@ -265,9 +265,10 @@ public struct NavigationBar: HTML {
                                     if let siteSubtitle {
                                         Text(siteSubtitle)
                                             .font(.title1)
+                                            .class("d-none d-md-block mb-0")
                                     }
                                 }
-                                .class("d-flex flex-column text-start")
+                                .class("d-flex flex-column")// text-start")
                             }
                             .class("d-flex align-items-center")
                             
