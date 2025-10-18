@@ -51,8 +51,6 @@ public struct NavigationBar: HTML {
 
         /// A toggle button with the default border styling.
         case bordered
-        case side(content: any HTML)
-        case sideBordered(content: any HTML)
 
         /// The default style for navigation menus.
         public static var automatic: Self { .bordered }
@@ -61,19 +59,6 @@ public struct NavigationBar: HTML {
             switch self {
             case .plain: [.init(.border, value: "none")]
             case .bordered: []
-            case .side: [.init(.border, value: "none")]
-            case .sideBordered: []
-            }
-        }
-        
-        public var siteContent: (any HTML)? {
-            switch self {
-            case .plain, .bordered:
-                return nil
-            case .side(let content):
-                return content
-            case .sideBordered(let content):
-                return content
             }
         }
     }
