@@ -244,8 +244,13 @@ public struct NavigationBar: HTML {
                                 Section(renderLogo(logo))
                                     .class("me-2 me-md-auto")
                                 
-                                if let siteTitle {
-                                    Text(siteTitle)
+                                VStack(alignment: .leading) {
+                                    if let siteTitle {
+                                        Text(siteTitle)
+                                    }
+                                    if let siteSubtitle {
+                                        Text(siteSubtitle)
+                                    }
                                 }
                             }
                         }
@@ -277,12 +282,20 @@ public struct NavigationBar: HTML {
                     .class("flex-wrap flex-lg-nowrap")
                 }
                 .attributes(attributes)
-                .class("navbar", "navbar-expand-md")
+//                .class("navbar", "navbar-expand-md")
+                .class("sticky-top navbar navbar-expand-md col-12 col-md-3 order-md-first text-white p-2 d-flex flex-column align-items-start rounded shadow-lg h-100 nav-indigo flex-grow-0 flex-shrink-0")
                 .data("bs-theme", theme(for: style))
                 
                 // Content
-                siteContent
+                Tag("main") {
+                    Tag("div") {
+                        siteContent
+                    }
+                    .class("flex-grow-1 p-0 m-0 h-100 overflow-y-auto")
+                }
+                .class("flex-grow-1 p-0 m-0 h-100 overflow-y-auto ps-2")
             }
+            .class("d-flex flex-column flex-md-row min-vh-100 p-2 m-2")
             .markup()
         } else {
             return Tag("header") {
