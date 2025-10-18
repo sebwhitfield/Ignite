@@ -64,6 +64,9 @@ public protocol Site: Sendable {
 
     /// The name of your site. Required.
     var name: String { get }
+    
+    /// 
+    var subtitle: String { get }
 
     /// An optional description for your site. Defaults to nil.
     var description: String? { get }

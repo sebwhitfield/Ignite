@@ -52,7 +52,7 @@ public struct NavigationBar: HTML {
         /// A toggle button with the default border styling.
         case bordered
         case side(content: any HTML)
-        case sideBordered
+        case sideBordered(content: any HTML)
 
         /// The default style for navigation menus.
         public static var automatic: Self { .bordered }
@@ -63,6 +63,17 @@ public struct NavigationBar: HTML {
             case .bordered: []
             case .side: [.init(.border, value: "none")]
             case .sideBordered: []
+            }
+        }
+        
+        public var siteContent: (any HTML)? {
+            switch self {
+            case .plain, .bordered:
+                return nil
+            case .side(let content):
+                return content
+            case .sideBordered(let content):
+                return content
             }
         }
     }
@@ -81,6 +92,7 @@ public struct NavigationBar: HTML {
 
     /// The content and behavior of this HTML.
     public var body: some HTML { self }
+//    public var siteContent: some HTML { self }
 
     /// The standard set of control attributes for HTML elements.
     public var attributes = CoreAttributes()
@@ -97,6 +109,9 @@ public struct NavigationBar: HTML {
 
     /// The visual style applied to the navigation menu toggle button.
     private var toggleMenuStyle: NavigationMenuStyle = .automatic
+    
+    /// The visual style applied to the navigation menu toggle button.
+    private var siteContent: (any HTML)? = nil
 
     /// The main logo for your site, such as an image or some text. This becomes
     /// clickable to let users navigate to your homepage.
@@ -208,6 +223,15 @@ public struct NavigationBar: HTML {
         return copy
     }
 
+    ///  Sets the visual style of the navigation menu toggle button.
+    /// - Parameter style: The style to apply to the toggle button.
+    /// - Returns: A new `NavigationBar` instance with the updated toggle button style.
+    public func sidebarStyledSiteContent(_ content: any HTML) -> Self {
+        var copy = self
+        copy.siteContent = content
+        return copy
+    }
+    
     /// Renders this element using publishing context passed in.
     /// - Returns: The HTML for this element.
     public func markup() -> Markup {
@@ -216,45 +240,91 @@ public struct NavigationBar: HTML {
         let pinnedItems = items.filter { $0.navigationBarVisibility == .always }
         let collapsibleItems = items.filter { $0.navigationBarVisibility == .automatic }
 
-        return Tag("header") {
-            Tag("nav") {
-                Section {
-                    if logo.isEmpty == false {
-                        Section(renderLogo(logo))
-                            .class("me-2 me-md-auto")
-                    }
-
-                    if pinnedItems.isEmpty == false {
-                        Section {
-                            renderPinnedItems(pinnedItems)
-                            if collapsibleItems.isEmpty == false {
-                                // Keep the toggle button on the same line
-                                // as the action items for a cleaner UI
+        if let siteContent = self.siteContent {
+            return Tag("div") {
+                // Navigation
+                Tag("nav") {
+                    Section {
+                        if logo.isEmpty == false {
+                            Section(renderLogo(logo))
+                                .class("me-2 me-md-auto")
+                        }
+                        
+                        if pinnedItems.isEmpty == false {
+                            Section {
+                                renderPinnedItems(pinnedItems)
+                                if collapsibleItems.isEmpty == false {
+                                    // Keep the toggle button on the same line
+                                    // as the action items for a cleaner UI
+                                    renderToggleButton()
+                                }
+                            }
+                            .class("flex-fill", "flex-md-grow-0", "flex-md-shrink-0")
+                            .class("d-flex", "gap-2", "align-items-center", "justify-content-end")
+                            .class(visibleControlCount > 1 ? nil : "gap-md-0")
+                            .class("ms-auto")
+                            .class("order-md-last")
+                        }
+                        
+                        if collapsibleItems.isEmpty == false {
+                            if pinnedItems.isEmpty {
                                 renderToggleButton()
                             }
+                            renderCollapsibleItems(collapsibleItems)
                         }
-                        .class("flex-fill", "flex-md-grow-0", "flex-md-shrink-0")
-                        .class("d-flex", "gap-2", "align-items-center", "justify-content-end")
-                        .class(visibleControlCount > 1 ? nil : "gap-md-0")
-                        .class("ms-auto")
-                        .class("order-md-last")
                     }
-
-                    if collapsibleItems.isEmpty == false {
-                        if pinnedItems.isEmpty {
-                            renderToggleButton()
-                        }
-                        renderCollapsibleItems(collapsibleItems)
-                    }
+                    .class(widthClasses)
+                    .class("flex-wrap flex-lg-nowrap")
                 }
-                .class(widthClasses)
-                .class("flex-wrap flex-lg-nowrap")
+                .attributes(attributes)
+                .class("navbar", "navbar-expand-md")
+                .data("bs-theme", theme(for: style))
+                
+                // Content
+                siteContent
             }
-            .attributes(attributes)
-            .class("navbar", "navbar-expand-md")
-            .data("bs-theme", theme(for: style))
+            .markup()
+        } else {
+            return Tag("header") {
+                Tag("nav") {
+                    Section {
+                        if logo.isEmpty == false {
+                            Section(renderLogo(logo))
+                                .class("me-2 me-md-auto")
+                        }
+                        
+                        if pinnedItems.isEmpty == false {
+                            Section {
+                                renderPinnedItems(pinnedItems)
+                                if collapsibleItems.isEmpty == false {
+                                    // Keep the toggle button on the same line
+                                    // as the action items for a cleaner UI
+                                    renderToggleButton()
+                                }
+                            }
+                            .class("flex-fill", "flex-md-grow-0", "flex-md-shrink-0")
+                            .class("d-flex", "gap-2", "align-items-center", "justify-content-end")
+                            .class(visibleControlCount > 1 ? nil : "gap-md-0")
+                            .class("ms-auto")
+                            .class("order-md-last")
+                        }
+                        
+                        if collapsibleItems.isEmpty == false {
+                            if pinnedItems.isEmpty {
+                                renderToggleButton()
+                            }
+                            renderCollapsibleItems(collapsibleItems)
+                        }
+                    }
+                    .class(widthClasses)
+                    .class("flex-wrap flex-lg-nowrap")
+                }
+                .attributes(attributes)
+                .class("navbar", "navbar-expand-md")
+                .data("bs-theme", theme(for: style))
+            }
+            .markup()
         }
-        .markup()
     }
 
     private func renderPinnedItems(_ items: [any NavigationItem]) -> some HTML {
