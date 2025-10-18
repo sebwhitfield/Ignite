@@ -236,6 +236,83 @@ public struct NavigationBar: HTML {
 
         if let siteContent = self.siteContent {
             return Tag("div") {
+                Tag("div") {
+                    """
+                    <style>
+                        .nav-indigo {
+                            background-color: #4B0082;
+                        }
+                        .nav-indigo a {
+                            background-color: #380064;
+                        }
+                    </style>
+                    """
+                    Tag("nav") { // left hand nav
+                       
+                        // navigation
+                        Tag("div") {
+                            
+                            Tag("div") { // header
+                                // Image
+                                Image("https://placehold.co/64x64/png?text=PFP", description: "profile image")
+                                    .class("rounded-circle me-3")
+                                
+                                Tag("div") {
+                                    if let siteTitle {
+                                        Text(siteTitle)
+                                            .font(.title1)
+                                    }
+                                    if let siteSubtitle {
+                                        Text(siteSubtitle)
+                                            .font(.title1)
+                                    }
+                                }
+                                .class("d-flex flex-column text-start")
+                            }
+                            .class("d-flex align-items-center")
+                            
+                            // Drop down menu on small screens
+                            """
+                            <button class="navbar-toggler d-md-none bg-white p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            """
+                        }
+                        .class("d-flex justify-content-between w-100 align-items-center mb-4")
+                        
+                        
+                        // MARK: Navigation links here.
+                        // Menu items
+                        """
+                        <div class="collapse navbar-collapse w-100" id="navbarNav">
+                            <ul class="navbar-nav list-unstyled d-flex flex-column w-100">
+                                <li class="nav-item me-3 me-md-0 my-2"><a href="/" class="nav-link p-1 rounded text-white bg-info active">About</a></li>
+                                <li class="nav-item me-3 me-md-0 my-2"><a href="/Portfolio" class="nav-link p-1 rounded text-white bg-danger">Portfolio</a></li>
+                                <li class="nav-item me-3 me-md-0 my-2"><a href="#" class="nav-link p-1 rounded text-white bg-danger">Contact</a></li>
+                            </ul>
+                        </div>
+                        """
+                    }
+        //            .class(outerclass)
+                    .class("sticky-top navbar navbar-expand-md col-12 col-md-3 order-md-first text-white p-2 d-flex flex-column align-items-start rounded shadow-lg h-100 nav-indigo flex-grow-0 flex-shrink-0")
+        //            .class("sticky-top navbar navbar-expand-md col-12 col-md-3 order-md-first bg-danger text-white p-2 d-flex flex-column align-items-start rounded shadow-lg h-100")
+                    
+                    // content area
+                    Tag("main") {
+                        Tag("div") {
+                            siteContent
+                        }
+        //                .class("bg-white p-0 rounded shadow h-100")
+                        .class("flex-grow-1 p-0 m-0 h-100 overflow-y-auto")
+                    }
+                    .class("flex-grow-1 p-0 m-0 h-100 overflow-y-auto ps-2")
+                }
+        //        .class("d-flex flex-column flex-md-row min-vh-100")
+                .class("d-flex flex-column flex-md-row min-vh-100 p-2 m-2")
+                .border(.blue, width: 3)
+            }.markup()
+            
+            return Tag("div") {
                 // Navigation
                 Tag("nav") {
                     Section {
