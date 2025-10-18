@@ -239,12 +239,14 @@ public struct NavigationBar: HTML {
                 // Navigation
                 Tag("nav") {
                     Section {
-                        HStack(alignment: .center) {
+//                        HStack(alignment: .center) {
+                        Tag("div") {
                             if logo.isEmpty == false {
                                 Section(renderLogo(logo))
                                     .class("me-2 me-md-auto")
                                 
-                                VStack(alignment: .leading) {
+//                                VStack(alignment: .leading) {
+                                Tag("div") {
                                     if let siteTitle {
                                         Text(siteTitle)
                                     }
@@ -252,8 +254,10 @@ public struct NavigationBar: HTML {
                                         Text(siteSubtitle)
                                     }
                                 }
+                                .class("d-flex flex-column text-start")
                             }
                         }
+                        .class("d-flex align-items-center")
                         
                         if pinnedItems.isEmpty == false {
                             Section {
@@ -278,8 +282,9 @@ public struct NavigationBar: HTML {
                             renderCollapsibleItems(collapsibleItems)
                         }
                     }
-                    .class(widthClasses)
-                    .class("flex-wrap flex-lg-nowrap")
+//                    .class(widthClasses)
+//                    .class("flex-wrap flex-lg-nowrap")
+                    .class("d-flex justify-content-between w-100 align-items-center mb-4")
                 }
                 .attributes(attributes)
 //                .class("navbar", "navbar-expand-md")
