@@ -240,7 +240,7 @@ public struct NavigationBar: HTML {
                 Tag("nav") {
                     Section {
 //                        HStack(alignment: .center) {
-                        Tag("div") {
+                        Section {
                             if logo.isEmpty == false {
                                 Section(renderLogo(logo))
                                     .class("me-2 me-md-auto")
@@ -259,9 +259,11 @@ public struct NavigationBar: HTML {
                         }
                         .class("d-flex align-items-center")
                         
+                        // MARK: Menu items
                         if pinnedItems.isEmpty == false {
                             Section {
                                 renderPinnedItems(pinnedItems)
+                                    .foregroundStyle(.blueViolet)
                                 if collapsibleItems.isEmpty == false {
                                     // Keep the toggle button on the same line
                                     // as the action items for a cleaner UI
@@ -280,13 +282,16 @@ public struct NavigationBar: HTML {
                                 renderToggleButton()
                             }
                             renderCollapsibleItems(collapsibleItems)
+                                .foregroundStyle(.orangeRed)
                         }
+                        
+                        
                     }
 //                    .class(widthClasses)
 //                    .class("flex-wrap flex-lg-nowrap")
                     .class("d-flex justify-content-between w-100 align-items-center mb-4")
                 }
-                .attributes(attributes)
+//                .attributes(attributes)
 //                .class("navbar", "navbar-expand-md")
                 .class("sticky-top navbar navbar-expand-md col-12 col-md-3 order-md-first text-white p-2 d-flex flex-column align-items-start rounded shadow-lg h-100 nav-indigo flex-grow-0 flex-shrink-0")
                 .data("bs-theme", theme(for: style))
