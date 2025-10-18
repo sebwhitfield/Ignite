@@ -97,6 +97,13 @@ public struct NavigationBar: HTML {
     
     /// The visual style applied to the navigation menu toggle button.
     private var siteContent: (any HTML)? = nil
+    
+    /// The title to be added to the site
+    private var siteTitle: String? = nil
+    
+    /// The visual style applied to the navigation menu toggle button.
+    private var siteSubtitle: String? = nil
+    
 
     /// The main logo for your site, such as an image or some text. This becomes
     /// clickable to let users navigate to your homepage.
@@ -211,9 +218,11 @@ public struct NavigationBar: HTML {
     ///  Sets the visual style of the navigation menu toggle button.
     /// - Parameter style: The style to apply to the toggle button.
     /// - Returns: A new `NavigationBar` instance with the updated toggle button style.
-    public func sidebarStyledSiteContent(_ content: any HTML) -> Self {
+    public func sidebarStyledSiteContent(_ content: any HTML, withTitle title: String? = nil, withSubtitle subtitle: String? = nil) -> Self {
         var copy = self
         copy.siteContent = content
+        copy.siteTitle = title
+        copy.siteSubtitle = subtitle
         return copy
     }
     
@@ -230,9 +239,15 @@ public struct NavigationBar: HTML {
                 // Navigation
                 Tag("nav") {
                     Section {
-                        if logo.isEmpty == false {
-                            Section(renderLogo(logo))
-                                .class("me-2 me-md-auto")
+                        HStack(alignment: .center) {
+                            if logo.isEmpty == false {
+                                Section(renderLogo(logo))
+                                    .class("me-2 me-md-auto")
+                                
+                                if let siteTitle {
+                                    Text(siteTitle)
+                                }
+                            }
                         }
                         
                         if pinnedItems.isEmpty == false {
