@@ -174,6 +174,8 @@ public extension Site {
 
     /// Uses `.gmt` as the default.
     var timeZone: TimeZone? { .gmt }
+    
+    var currentTheme: (any Theme)? { nil }
 
     /// Uses the default light theme based on Bootstrap.
     var lightTheme: (any Theme)? { DefaultLightTheme() }

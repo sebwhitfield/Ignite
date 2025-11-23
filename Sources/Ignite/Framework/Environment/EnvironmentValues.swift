@@ -27,6 +27,9 @@ public struct EnvironmentValues {
 
     /// Available themes for the site, including light, dark, and any alternates.
     public var themes: [any Theme] = []
+    
+    /// Current theme that is in use.
+    public var currentTheme: (any Theme)?
 
     /// Locates, loads, and decodes a JSON file in your Resources folder.
     public var decode: DecodeAction
@@ -71,6 +74,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: [])
         self.feedConfiguration = FeedConfiguration(mode: .full, contentCount: 0)
         self.themes = []
+        self.currentTheme = nil
         self.decode = .init(sourceDirectory: URL(filePath: ""))
         self.author = ""
         self.language = .english
@@ -86,6 +90,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: allContent)
         self.feedConfiguration = site.feedConfiguration
         self.themes = site.allThemes
+        self.currentTheme = site.lightTheme ?? site.darkTheme
         self.author = site.author
         self.language = site.language
         self.favicon = site.favicon
@@ -112,6 +117,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: allContent)
         self.feedConfiguration = site.feedConfiguration
         self.themes = site.allThemes
+        self.currentTheme = site.lightTheme ?? site.darkTheme
         self.author = site.author
         self.language = site.language
         self.favicon = site.favicon
@@ -143,6 +149,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: allContent)
         self.feedConfiguration = site.feedConfiguration
         self.themes = site.allThemes
+        self.currentTheme = site.lightTheme ?? site.darkTheme
         self.author = site.author
         self.language = site.language
         self.favicon = site.favicon
@@ -175,6 +182,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: allContent)
         self.feedConfiguration = site.feedConfiguration
         self.themes = site.allThemes
+        self.currentTheme = site.lightTheme ?? site.darkTheme
         self.author = site.author
         self.language = site.language
         self.favicon = site.favicon

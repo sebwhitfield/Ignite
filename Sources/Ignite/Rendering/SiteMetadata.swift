@@ -16,6 +16,9 @@ public struct SiteMetadata: Sendable {
     /// An optional description for the site
     private(set) public var description: String?
 
+    /// The current theme, to be updated when SwitchTheme is called.
+    public var currentTheme: (any Theme)?
+    
     /// The base URL for the site
     private(set) public var url: URL
 }
@@ -26,6 +29,7 @@ extension SiteMetadata {
         name: "",
         titleSuffix: "",
         description: "",
-        url: URL(string: "about:blank")!
+        currentTheme: nil,
+        url: URL(string: "about:blank")!,
     )
 }
