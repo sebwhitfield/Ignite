@@ -80,6 +80,8 @@ public protocol Site: Sendable {
     /// The time zone used for date outputs in your site. Defaults to `.gmt`.
     var timeZone: TimeZone? { get }
 
+    var currentTheme: (any Theme)? { get set }
+
     /// Choose whether to use a local version of Bootstrap, a remote version,
     /// or none at all
     var useDefaultBootstrapURLs: BootstrapOptions { get }

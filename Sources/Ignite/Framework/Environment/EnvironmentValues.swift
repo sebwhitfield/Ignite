@@ -35,7 +35,7 @@ public struct EnvironmentValues {
     public var decode: DecodeAction
 
     /// The site's metadata, such as name, description, and URL.
-    public let site: SiteMetadata
+    public var site: SiteMetadata
 
     /// The author of the site
     public let author: String
