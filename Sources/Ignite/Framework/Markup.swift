@@ -8,7 +8,7 @@
 /// A structure that represents HTML markup content.
 public struct Markup: Sendable {
     /// The raw HTML string content.
-    var string: String
+    public var string: String
 
     /// Returns a Boolean value indicating whether the markup contains no characters.
     var isEmpty: Bool {
