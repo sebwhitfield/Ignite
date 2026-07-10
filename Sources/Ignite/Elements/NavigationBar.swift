@@ -269,6 +269,7 @@ public struct NavigationBar: HTML {
         Button {
             Span()
                 .class(toggleIcon.rawValue)
+                .class("text-reset")
         }
         .style(toggleMenuStyle.styles)
         .class("navbar-toggler")
