@@ -274,33 +274,10 @@ public struct NavigationBar: HTML {
         }
     }
 
-//    private func renderToggleButton() -> some InlineElement {
-//        if let customNavigationBarIcon {
-//            return customNavigationBarIcon
-//        } else {
-////        if customNavigationBarIcon != nil {
-////            customNavigationBarIcon()
-////        } else {
-//            return Button {
-//                Span()
-//                    .class(toggleIcon.rawValue)
-//                    .class("text-reset") // Change here
-//            }
-//            .style(toggleMenuStyle.styles)
-//            .class("navbar-toggler")
-//            .data("bs-toggle", "collapse")
-//            .data("bs-target", "#navbarCollapse")
-//            .aria(.controls, "navbarCollapse")
-//            .aria(.expanded, "false")
-//            .aria(.label, "Toggle navigation")
-//        }
-//    }
-    // 1. Change the return type to AnyInlineElement
     private func renderToggleButton() -> AnyInlineElement {
         if let customNavigationBarIcon {
             return customNavigationBarIcon
         } else {
-            // 2. Wrap your default fallback button inside AnyInlineElement()
             return AnyInlineElement(
                 Button {
                     Span()

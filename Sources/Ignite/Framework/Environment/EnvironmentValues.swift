@@ -27,6 +27,8 @@ public struct EnvironmentValues {
 
     /// Available themes for the site, including light, dark, and any alternates.
     public var themes: [any Theme] = []
+    
+    public var currentTheme: (any Theme)? = nil
 
     /// Locates, loads, and decodes a JSON file in your Resources folder.
     public var decode: DecodeAction
@@ -66,11 +68,23 @@ public struct EnvironmentValues {
 
     /// Content that has the current tag.
     var taggedContent: [Article] = []
+    
+    // 2. Helper function to find a matching custom theme from the Site protocol definitions
+        private static func resolveDefaultTheme(for site: any Site) -> (any Theme)? {
+            // Find if any of the alternate themes or explicit themes should act as the custom initial state.
+            // For example, if you have a theme whose ID matches a default custom configuration:
+            let availableThemes = site.allThemes
+            
+            // If the site defines specific alternative selections or has no 'Auto' fallback,
+            // you can grab the default custom theme here. Otherwise, return nil (Auto).
+            return site.alternateThemes.first
+        }
 
     init() {
         self.articles = ArticleLoader(content: [])
         self.feedConfiguration = FeedConfiguration(mode: .full, contentCount: 0)
         self.themes = []
+        self.currentTheme = nil
         self.decode = .init(sourceDirectory: URL(filePath: ""))
         self.author = ""
         self.language = .english
@@ -86,6 +100,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: allContent)
         self.feedConfiguration = site.feedConfiguration
         self.themes = site.allThemes
+        self.currentTheme = EnvironmentValues.resolveDefaultTheme(for: site)
         self.author = site.author
         self.language = site.language
         self.favicon = site.favicon
@@ -112,6 +127,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: allContent)
         self.feedConfiguration = site.feedConfiguration
         self.themes = site.allThemes
+        self.currentTheme = EnvironmentValues.resolveDefaultTheme(for: site)
         self.author = site.author
         self.language = site.language
         self.favicon = site.favicon
@@ -143,6 +159,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: allContent)
         self.feedConfiguration = site.feedConfiguration
         self.themes = site.allThemes
+        self.currentTheme = EnvironmentValues.resolveDefaultTheme(for: site)
         self.author = site.author
         self.language = site.language
         self.favicon = site.favicon
@@ -175,6 +192,7 @@ public struct EnvironmentValues {
         self.articles = ArticleLoader(content: allContent)
         self.feedConfiguration = site.feedConfiguration
         self.themes = site.allThemes
+        self.currentTheme = EnvironmentValues.resolveDefaultTheme(for: site)
         self.author = site.author
         self.language = site.language
         self.favicon = site.favicon
