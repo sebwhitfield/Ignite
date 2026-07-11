@@ -8,6 +8,9 @@
 /// A bar that sits across the top of your page to provide top-level navigation
 /// throughout your site.
 public struct NavigationBar: HTML {
+    
+    public var customNavigationBarIcon: AnyInlineElement? = nil
+    
     /// The color scheme for this navigation bar.
     public enum NavigationBarStyle {
         /// No specific color scheme means this bar will be rendered using
@@ -185,6 +188,12 @@ public struct NavigationBar: HTML {
         copy.itemAlignment = alignment
         return copy
     }
+    
+    public func navigationBarCustomIcon(_ icon: AnyInlineElement) -> Self {
+        var copy = self
+        copy.customNavigationBarIcon = icon
+        return copy
+    }
 
     /// Sets the icon to display in the navigation menu toggle button.
     /// - Parameter icon: The icon to use for the toggle button.
@@ -265,19 +274,48 @@ public struct NavigationBar: HTML {
         }
     }
 
-    private func renderToggleButton() -> some InlineElement {
-        Button {
-            Span()
-                .class(toggleIcon.rawValue)
-                .class("text-reset") // Change here
+//    private func renderToggleButton() -> some InlineElement {
+//        if let customNavigationBarIcon {
+//            return customNavigationBarIcon
+//        } else {
+////        if customNavigationBarIcon != nil {
+////            customNavigationBarIcon()
+////        } else {
+//            return Button {
+//                Span()
+//                    .class(toggleIcon.rawValue)
+//                    .class("text-reset") // Change here
+//            }
+//            .style(toggleMenuStyle.styles)
+//            .class("navbar-toggler")
+//            .data("bs-toggle", "collapse")
+//            .data("bs-target", "#navbarCollapse")
+//            .aria(.controls, "navbarCollapse")
+//            .aria(.expanded, "false")
+//            .aria(.label, "Toggle navigation")
+//        }
+//    }
+    // 1. Change the return type to AnyInlineElement
+    private func renderToggleButton() -> AnyInlineElement {
+        if let customNavigationBarIcon {
+            return customNavigationBarIcon
+        } else {
+            // 2. Wrap your default fallback button inside AnyInlineElement()
+            return AnyInlineElement(
+                Button {
+                    Span()
+                        .class(toggleIcon.rawValue)
+                        .class("text-reset")
+                }
+                .style(toggleMenuStyle.styles)
+                .class("navbar-toggler")
+                .data("bs-toggle", "collapse")
+                .data("bs-target", "#navbarCollapse")
+                .aria(.controls, "navbarCollapse")
+                .aria(.expanded, "false")
+                .aria(.label, "Toggle navigation")
+            )
         }
-        .style(toggleMenuStyle.styles)
-        .class("navbar-toggler")
-        .data("bs-toggle", "collapse")
-        .data("bs-target", "#navbarCollapse")
-        .aria(.controls, "navbarCollapse")
-        .aria(.expanded, "false")
-        .aria(.label, "Toggle navigation")
     }
 
     private func renderCollapsibleItems(_ items: [any NavigationItem]) -> some HTML {
