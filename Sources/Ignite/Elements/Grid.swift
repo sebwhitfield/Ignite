@@ -21,6 +21,8 @@ public struct Grid: HTML {
 
     /// Whether this HTML belongs to the framework.
     public var isPrimitive: Bool { true }
+    
+    public var horizontalFill: Bool = true
 
     /// How many columns this should be divided into
     var columnCount: Int?
@@ -43,11 +45,13 @@ public struct Grid: HTML {
     public init(
         alignment: Alignment = .center,
         spacing: Int,
+        horizontalFill: Bool = true,
         @HTMLBuilder items: () -> some BodyElement
     ) {
         self.items = HTMLCollection(items)
         self.alignment = alignment
         self.spacingAmount = .exact(spacing)
+        self.horizontalFill = horizontalFill
     }
 
     /// Creates a new `Grid` object using a block element builder
@@ -59,11 +63,13 @@ public struct Grid: HTML {
     public init(
         alignment: Alignment = .center,
         spacing: SpacingAmount = .medium,
+        horizontalFill: Bool = true,
         @HTMLBuilder items: () -> some BodyElement
     ) {
         self.items = HTMLCollection(items)
         self.alignment = alignment
         self.spacingAmount = .semantic(spacing)
+        self.horizontalFill = horizontalFill
     }
 
     /// Creates a new grid from a collection of items, along with a function that converts
@@ -77,11 +83,13 @@ public struct Grid: HTML {
     public init<T>(
         _ items: any Sequence<T>,
         alignment: Alignment = .center,
+        horizontalFill: Bool = true,
         spacing: Int, content: (T) -> some BodyElement
     ) {
         self.items = HTMLCollection(items.map(content))
         self.alignment = alignment
         self.spacingAmount = .exact(spacing)
+        self.horizontalFill = horizontalFill
     }
 
     /// Creates a new grid from a collection of items, along with a function that converts
@@ -96,11 +104,13 @@ public struct Grid: HTML {
         _ items: any Sequence<T>,
         alignment: Alignment = .center,
         spacing: SpacingAmount = .medium,
+        horizontalFill: Bool = true,
         content: (T) -> some BodyElement
     ) {
         self.items = HTMLCollection(items.map(content))
         self.alignment = alignment
         self.spacingAmount = .semantic(spacing)
+        self.horizontalFill = horizontalFill
     }
 
     /// Adjusts the number of columns that can be fitted into this grid.
@@ -118,6 +128,9 @@ public struct Grid: HTML {
         var gridAttributes = attributes.appending(classes: ["row"])
         gridAttributes.append(classes: alignment.horizontal.containerAlignmentClass)
 
+        if horizontalFill == false {
+            gridAttributes.append(classes: ["w-auto", "d-inline-flex"])
+        }
         // If a column count is set, we want to use that for all
         // page sizes that are medium and above. Below that we
         // should drop down to width 1 to avoid squeezing things
@@ -166,6 +179,9 @@ public struct Grid: HTML {
         }
 
         item = item.is(Section.self) ? item : Section(item)
+        
+        // MODIFIED: Use "col-auto" if horizontalFill is disabled and no specific width is requested
+        let columnClass = name ?? (horizontalFill ? "col" : "col-auto")
 
         return AnyHTML(item)
             .class(name ?? "col")
