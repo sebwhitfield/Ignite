@@ -239,11 +239,17 @@ public struct Grid: HTML {
 
         item = item.is(Section.self) ? item : Section(item)
         
-        // Calculate the right class based on horizontalFill
-        let columnClass = name ?? (horizontalFill ? "col" : "col-auto")
+        // Explicitly fallback to "col-auto" if horizontalFill is disabled
+        let columnClass: String
+            if horizontalFill {
+                columnClass = name ?? "col"
+            } else {
+                columnClass = "col-auto"
+            }
+//        let columnClass = name ?? (self.horizontalFill ? "col" : "col-auto")
 
         return AnyHTML(item)
-            .class(columnClass) // <-- Fixed: Pass columnClass here
+            .class(columnClass) // Apply the calculated tight class variable
             .class(alignment.vertical.itemAlignmentClass)
     }
 
