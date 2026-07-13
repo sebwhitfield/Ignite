@@ -127,48 +127,45 @@ public struct Grid: HTML {
     public func markup() -> Markup {
         var gridAttributes = attributes.appending(classes: ["row"])
 
-        
-        // MODIFIED: Only apply standard layout alignment if we are filling the container.
-            // If horizontalFill is false, we want items to pack tightly next to each other.
-            if horizontalFill {
-                gridAttributes.append(classes: alignment.horizontal.containerAlignmentClass)
-            } else {
-                // This forces the flex items to pack together compactly
-                gridAttributes.append(classes: ["w-auto", "flex-md-nowrap", "justify-content-start"])
-            }
-
+        if horizontalFill {
+            gridAttributes.append(classes: alignment.horizontal.containerAlignmentClass)
+            
             if let columnCount {
                 gridAttributes.append(classes: [
                     "row-cols-1",
                     "row-cols-md-\(columnCount)"
                 ])
             }
+        } else {
+            // This forces the grid wrapper row to wrap tightly and cleanly align items leading
+            gridAttributes.append(classes: ["w-auto", "justify-content-start", "d-inline-flex"])
+        }
 
-            var gutterClass = ""
+        var gutterClass = ""
 
-            switch spacingAmount {
-            case .exact(let pixels) where pixels != 0:
-                gridAttributes.append(styles: .init(.rowGap, value: "\(pixels)px"))
-            case .semantic(let amount) where spacingAmount != .semantic(.none):
-                gutterClass = "g-\(amount.rawValue)"
-            default: break
-            }
+        switch spacingAmount {
+        case .exact(let pixels) where pixels != 0:
+            gridAttributes.append(styles: .init(.rowGap, value: "\(pixels)px"))
+        case .semantic(let amount) where spacingAmount != .semantic(.none):
+            gutterClass = "g-\(amount.rawValue)"
+        default: break
+        }
 
-            return Section {
-                ForEach(items) { item in
-                    if let passthrough = item as? any PassthroughElement {
-                        handlePassthrough(passthrough, attributes: passthrough.attributes)
-                    } else if let modified = item as? AnyHTML,
-                              let passthrough = modified.wrapped as? any PassthroughElement {
-                        handlePassthrough(passthrough, attributes: modified.attributes)
-                    } else {
-                        handleItem(item)
-                            .class(gutterClass)
-                    }
+        return Section {
+            ForEach(items) { item in
+                if let passthrough = item as? any PassthroughElement {
+                    handlePassthrough(passthrough, attributes: passthrough.attributes)
+                } else if let modified = item as? AnyHTML,
+                          let passthrough = modified.wrapped as? any PassthroughElement {
+                    handlePassthrough(passthrough, attributes: modified.attributes)
+                } else {
+                    handleItem(item)
+                        .class(gutterClass)
                 }
             }
-            .attributes(gridAttributes)
-            .markup()
+        }
+        .attributes(gridAttributes)
+        .markup()
     }
 
     /// Removes a column class, if it exists, from the item and reassigns it to a wrapper.
