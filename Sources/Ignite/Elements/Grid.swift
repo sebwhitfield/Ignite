@@ -212,6 +212,23 @@ public struct Grid: HTML {
     }
 
     /// Removes a column class, if it exists, from the item and reassigns it to a wrapper.
+//    private func handleItem(_ item: any BodyElement) -> some BodyElement {
+//        var item = item
+//        var name: String?
+//        if let widthClass = item.attributes.classes.first(where: { $0.starts(with: "col-md-") }) {
+//            item.attributes.remove(classes: widthClass)
+//            name = scaleWidthClass(widthClass)
+//        }
+//
+//        item = item.is(Section.self) ? item : Section(item)
+//        
+//        // MODIFIED: Use "col-auto" if horizontalFill is disabled and no specific width is requested
+//        let columnClass = name ?? (horizontalFill ? "col" : "col-auto")
+//
+//        return AnyHTML(item)
+//            .class(name ?? "col")
+//            .class(alignment.vertical.itemAlignmentClass)
+//    }
     private func handleItem(_ item: any BodyElement) -> some BodyElement {
         var item = item
         var name: String?
@@ -222,11 +239,11 @@ public struct Grid: HTML {
 
         item = item.is(Section.self) ? item : Section(item)
         
-        // MODIFIED: Use "col-auto" if horizontalFill is disabled and no specific width is requested
+        // Calculate the right class based on horizontalFill
         let columnClass = name ?? (horizontalFill ? "col" : "col-auto")
 
         return AnyHTML(item)
-            .class(name ?? "col")
+            .class(columnClass) // <-- Fixed: Pass columnClass here
             .class(alignment.vertical.itemAlignmentClass)
     }
 
