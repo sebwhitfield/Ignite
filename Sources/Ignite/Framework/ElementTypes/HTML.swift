@@ -4,6 +4,48 @@
 // https://www.github.com/twostraws/Ignite
 // See LICENSE for license information.
 //
+struct TestPage: StaticPage {
+    var title: String = ""
+    var path: String = ""
+    var body: some HTML {
+
+    }
+}
+
+struct InteractiveCustomCard: HTML {
+    var body: some HTML { self }
+    var attributes = CoreAttributes()
+    var isPrimitive: Bool { true }
+    var customClass: String? = nil
+    
+
+    public func markup() -> Markup {
+        let uniqueClass = "my-hover-card"
+        
+        // Base Ruleset
+        let baseRuleset = Ruleset(.class(uniqueClass),
+                                  styles: [.init(.transition, value: "transform 0.2s ease, box-shadow 0.2s ease"),
+                                           .init(.cursor, value: "pointer")
+                                  ]) // + CustomCSS.cardBorder(radius: 16, color: .border)) // Merge array types cleanly!
+
+        // Hover Ruleset
+        let hoverRuleset = Ruleset(.class(uniqueClass), .pseudoClass("hover"), styles: [
+            .init(.transform, value: "translateY(-4px)"),
+            .init(.boxShadow, value: "0 12px 20px rgba(0,0,0,0.15)")
+        ])
+
+        return """
+        <style>
+        \(baseRuleset.render())
+        \(hoverRuleset.render())
+        </style>
+
+        <div class="\(uniqueClass) p-4">
+            Hello, World!
+        </div>
+        """.markup()
+    }
+}
 
 /// A protocol that defines the core behavior and
 /// structure of `HTML` elements in Ignite.
